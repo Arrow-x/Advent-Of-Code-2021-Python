@@ -15,13 +15,10 @@ def part_one(lines):
         match line_key:
             case "forward":
                 hor_pos += line_val
-                # print("forward", line_val)
             case "up":
                 depth -= line_val
-                # print("up", line_val)
             case "down":
                 depth += line_val
-                # print("down", line_val)
     print(hor_pos * depth)
 
 
@@ -36,13 +33,10 @@ def part_two(lines):
             case "forward":
                 hor_pos += line_val
                 depth += aim * line_val
-                # print("forward", line_val)
             case "up":
                 aim -= line_val
-                # print("up", line_val)
             case "down":
                 aim += line_val
-                # print("down", line_val)
     print(hor_pos * depth)
 
 
