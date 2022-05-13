@@ -30,7 +30,6 @@ def bingo(draws, boards):
         for b in range(len(boards)):
             if b > len(boards) - 1:
                 break
-            print("checking for ", d, "in", b)
             check_board(boards, d, b)
 
 
@@ -42,7 +41,7 @@ def check_board(boards, d, b):
                 print("bingo horizantal at value",
                       d, "in board", boards[b])
                 print_sum(deepcopy(boards[b]), d)
-                boards.remove(boards[b])
+                boards[b] = []
                 return
 
     bingo_str = []
@@ -56,10 +55,9 @@ def check_board(boards, d, b):
             print("bingo vertical at value",
                   d, "in board", boards[b])
             print_sum(deepcopy(boards[b]), d)
-            boards.remove(boards[b])
+            boards[b] = []
             return
         bingo_str = []
-    # print(d, " found nothing", boards[b])
 
 
 def print_sum(board, d):
