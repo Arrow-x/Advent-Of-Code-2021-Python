@@ -28,27 +28,38 @@ def main():
 def bingo(draws, boards):
     for d in draws:
         for b in range(len(boards)):
-            for ln in range(len(boards[b])):
-                if boards[b][ln].count(d) != 0:
-                    boards[b][ln][boards[b][ln].index(d)] = "x"
-                    if "".join(map(str, boards[b][ln])) == "xxxxx":
-                        print("bingo horizantal at value",
-                              d, "in board", boards[b])
-                        print_sum(deepcopy(boards[b]), d)
+            if b > len(boards) - 1:
+                break
+            print("checking for ", d, "in", b)
+            check_board(boards, d, b)
 
-            bingo_str = []
-            for ln in range(len(boards[b])):
-                for c in range(len(boards[b])):
-                    bingo_str.append(boards[b][c][ln])
-                if bingo_str.count(d) != 0:
-                    boards[b][bingo_str.index(d)][ln] = "x"
-                    bingo_str[bingo_str.index(d)] = "x"
-                if "".join(map(str, bingo_str)) == "xxxxx":
-                    print("bingo vertical at value",
-                          d, "in board", boards[b])
-                    print_sum(deepcopy(boards[b]), d)
 
-                bingo_str = []
+def check_board(boards, d, b):
+    for ln in range(len(boards[b])):
+        if boards[b][ln].count(d) != 0:
+            boards[b][ln][boards[b][ln].index(d)] = "x"
+            if "".join(map(str, boards[b][ln])) == "xxxxx":
+                print("bingo horizantal at value",
+                      d, "in board", boards[b])
+                print_sum(deepcopy(boards[b]), d)
+                boards.remove(boards[b])
+                return
+
+    bingo_str = []
+    for ln in range(len(boards[b])):
+        for c in range(len(boards[b])):
+            bingo_str.append(boards[b][c][ln])
+        if bingo_str.count(d) != 0:
+            boards[b][bingo_str.index(d)][ln] = "x"
+            bingo_str[bingo_str.index(d)] = "x"
+        if "".join(map(str, bingo_str)) == "xxxxx":
+            print("bingo vertical at value",
+                  d, "in board", boards[b])
+            print_sum(deepcopy(boards[b]), d)
+            boards.remove(boards[b])
+            return
+        bingo_str = []
+    # print(d, " found nothing", boards[b])
 
 
 def print_sum(board, d):
