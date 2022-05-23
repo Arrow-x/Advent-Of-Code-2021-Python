@@ -1,6 +1,6 @@
 def main():
     data_len = 1000
-    data = open("input", "r")
+    data = open("day5/input", "r")
     nonempty_lines = [lin.strip("\n") for lin in data if lin != "\n"]
 
     point_map = [0]*data_len
@@ -15,25 +15,31 @@ def part1(point_map, nonempty_lines, data_len):
         line = line.replace(" -> ", ",")
         line = line.rstrip().split(",")
         line = list(map(int, line))
-        if line[1] == line[3]:
+
+        x1 = line[0]
+        x2 = line[1]
+        y1 = line[2]
+        y2 = line[3]
+
+        if x2 == y2:
             ll = [0]*data_len
-            if line[0] < line[2]:
-                for i in range(line[0], line[2]+1):
+            if x1 < y1:
+                for i in range(x1, y1+1):
                     ll[i] += 1
-            if line[0] > line[2]:
-                for i in range(line[2], line[0]+1):
+            if x1 > y1:
+                for i in range(y1, x1+1):
                     ll[i] += 1
 
-            sumlist = [a + b for a, b in zip(point_map[line[1]], ll)]
-            point_map[line[1]] = sumlist
+            sumlist = [a + b for a, b in zip(point_map[x2], ll)]
+            point_map[x2] = sumlist
 
-        if line[0] == line[2]:
-            if line[1] < line[3]:
-                for i in range(line[1], line[3]+1):
-                    point_map[i][line[0]] += 1
-            if line[1] > line[3]:
-                for i in range(line[3], line[1]+1):
-                    point_map[i][line[0]] += 1
+        if x1 == y1:
+            if x2 < y2:
+                for i in range(x2, y2+1):
+                    point_map[i][x1] += 1
+            if x2 > y2:
+                for i in range(y2, x2+1):
+                    point_map[i][x1] += 1
 
     overlap_count = 0
     for i in point_map:
@@ -48,32 +54,35 @@ def part2(point_map, nonempty_lines, data_len):
         line = line.replace(" -> ", ",")
         line = line.rstrip().split(",")
         line = list(map(int, line))
-        if line[1] == line[3]:
+
+        x1 = line[0]
+        x2 = line[1]
+        y1 = line[2]
+        y2 = line[3]
+
+        if x2 == y2:
             ll = [0]*data_len
-            if line[0] < line[2]:
-                for i in range(line[0], line[2]+1):
+            if x1 < y1:
+                for i in range(x1, y1+1):
                     ll[i] += 1
-            if line[0] > line[2]:
-                for i in range(line[2], line[0]+1):
+            if x1 > y1:
+                for i in range(y1, x1+1):
                     ll[i] += 1
 
-            sumlist = [a + b for a, b in zip(point_map[line[1]], ll)]
-            point_map[line[1]] = sumlist
+            point_map[x2] = [a + b for a, b in zip(point_map[x2], ll)]
             continue
 
-        if line[0] == line[2]:
-            if line[1] < line[3]:
-                for i in range(line[1], line[3]+1):
-                    point_map[i][line[0]] += 1
-            if line[1] > line[3]:
-                for i in range(line[3], line[1]+1):
-                    point_map[i][line[0]] += 1
+        if x1 == y1:
+            if x2 < y2:
+                for i in range(x2, y2+1):
+                    point_map[i][x1] += 1
+            if x2 > y2:
+                for i in range(y2, x2+1):
+                    point_map[i][x1] += 1
             continue
 
-        if abs(line[2] - line[0]) == abs(line[3] - line[1]):
-            print(line)
-            mark_diag(line[0], line[2], line[1], line[3],
-                      point_map, line[2] - line[0], line[3] - line[1])
+        if abs(y1 - x1) == abs(y2 - x2):
+            mark_diag(x1, y1, x2, y2, point_map, y1 - x1, y2 - x2)
 
     overlap_count = 0
     for i in point_map:
@@ -94,6 +103,7 @@ def mark_diag(x1, x2, y1, y2, point_map, dir_x, dir_y):
             cur_x += 1
         else:
             cur_x -= 1
+
         if dir_y > 0:
             cur_y += 1
         else:
