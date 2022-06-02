@@ -1,4 +1,5 @@
 def main():
+    days = 80
     raw = open("day6/input", "r")
 
     input_str = []
@@ -6,21 +7,23 @@ def main():
         input_str.append(raw_fish)
     raw.close()
 
-    fishes = [[] for y in range(81)]
+    # fishes = [[] for y in range(days+1)]
     for raw_fish in input_str:
-        fishes[0] = (list(map(int, raw_fish.split(","))))
+        fishes = (list(map(int, raw_fish.split(","))))
 
-    for day in range(80):
-        for fish in fishes[day]:
-            new_day_fish = fish - 1
-            if new_day_fish == -1:
-                new_day_fish = 6
-                fishes[day+1].append(8)
-            fishes[day+1].append(new_day_fish)
+    for day in range(days):
+        new_fishs = []
+        for fish in fishes:
+            new_fish = fish - 1
+            if new_fish == -1:
+                new_fish = 6
+                new_fishs.append(8)
+            new_fishs.append(new_fish)
+        fishes = new_fishs
 
     # for i in fishes:
     #     print(i)
-    print(len(fishes[80]))
+    print(len(fishes))
 
 
 if __name__ == "__main__":
