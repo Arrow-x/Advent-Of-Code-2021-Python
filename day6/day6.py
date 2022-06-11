@@ -10,20 +10,20 @@ def main():
     # fishes = [[] for y in range(days+1)]
     for raw_fish in input_str:
         fishes = (list(map(int, raw_fish.split(","))))
+    fish_count = len(fishes)
 
     for day in range(days):
-        new_fishs = []
-        for fish in fishes:
-            new_fish = fish - 1
-            if new_fish == -1:
-                new_fish = 6
-                new_fishs.append(8)
-            new_fishs.append(new_fish)
-        fishes = new_fishs
+        add_counter = 0
+        for fish_idx in range(fish_count):
+            fishes[fish_idx] -= 1
+            if fishes[fish_idx] == -1:
+                fishes[fish_idx] = 6
+                add_counter += 1
+        for a in range(add_counter):
+            fishes.append(8)
+            fish_count += 1
 
-    # for i in fishes:
-    #     print(i)
-    print(len(fishes))
+    print(fish_count)
 
 
 if __name__ == "__main__":
